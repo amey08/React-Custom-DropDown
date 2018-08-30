@@ -47,7 +47,10 @@ class CustomDropdown extends Component {
     onLinkClick(e){
         this.setState({selectedValue: e.currentTarget.innerText, newLinkButton: true}, ()=>{
             //params for getData are reportNo, reportName, isClosed
-            this.props.getData(e.currentTarget.childNodes[0].getAttribute("value"), e.currentTarget.innerText, false);
+            console.log(e);
+            console.log(e.currentTarget.innerText);
+            // console.log(e.currentTarget.childNodes[0].getAttribute("value"), e.currentTarget.innerText, false)
+            this.props.getData(1, "e.currentTarget.innerText", false);
         });        
     }
 
@@ -65,7 +68,8 @@ class CustomDropdown extends Component {
             break;
         case 2:
         console.log(this.reportName.value);
-            (this.reportName && this.reportName.value !== "") ? this.setState({selectedValue: this.reportName.value}) : null;
+            if(this.reportName && this.reportName.value !== "")
+                this.updateValue('selectedValue', this.reportName.value);
             this.props.getData(null, this.reportName.value, false);
             break;
         case 3:
@@ -75,14 +79,17 @@ class CustomDropdown extends Component {
             console.log("nothing to update");
         }
     }
-
+    updateValue(_key, _param, _callbackFn){
+        this.setState({_key: _param}, _callbackFn)
+    }
     renderList() {
         let data = this.state.dataSet;
         return data.map((record, index) => {
             let value= this.state.dataValue ?  record[this.state.dataValue] : record;
+            
             return (
                 <div className="col-md-12 list-anchors" key={index} id="new-custom-dropdown-anchors">
-                    <div className="col-sm-9 col-md-10 col-xs-8 col-lg-10 noPaddingLR cursor-pointer" onClick={this.onLinkClick.bind(this)}>
+                    <div className="col-sm-9 col-md-10 col-xs-8 col-lg-10 noPaddingLR cursor-pointer" onClick={this.onLinkClick.bind(this)} value={this.state.dataKey ? record[this.state.dataKey] : record}>
                         <a value={this.state.dataKey ? record[this.state.dataKey] : record} title={value}>
                             {value}
                         </a>
@@ -139,7 +146,7 @@ CustomDropdown.propTypes = {
     buttonLabel_PlaceHolder: PropTypes.string,
     linkButtonText: PropTypes.string,
     reportInputField: PropTypes.string,
-    dataSet: PropTypes.object,
+    dataSet: PropTypes.array,
     parentClass: PropTypes.string,
     superParentClass: PropTypes.string,
     childClass: PropTypes.string,

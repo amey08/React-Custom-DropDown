@@ -29,10 +29,10 @@ class App extends Component {
   }
   
   getFilterName(key, value, state){
+    console.log(key, value, state);
     this.setState({ createNewDropdownOpen: state, selectedName: value });
   }
 
-  getFilterName(){}
   deleteSearch(){}
   render() {
     return (
@@ -42,9 +42,8 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          Custom Dropdown component place here
         </p>
-        <div>Custom Dropdown component place here</div>
         <CustomDropdown buttonLabel_PlaceHolder={"Select Saved Filter Criteria"}
           linkButtonText={"Create New Filter"} reportInputField={"Enter Filter name"} dataSet={this.state.filterList}
           onClickDropdown={this.createNewDropdownClick.bind(this)} getData={this.getFilterName.bind(this)}
