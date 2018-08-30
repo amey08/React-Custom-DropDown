@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import './customDropdown.css';
+import './../css/customDropdown.css';
 import PropTypes from 'prop-types';
 
 class CustomDropdown extends Component {
@@ -40,31 +40,15 @@ class CustomDropdown extends Component {
     }
 
     _constructComponent(props) {
-        let { buttonLabel_PlaceHolder, linkButtonText, reportInputField, dataSet, dataSetKey, dataSetValue,
-            parentClass, superParentClass, childClass, onClickDropdown, dropdownVisible, value
-        } = {...props};
-        let nextState = {
-            buttonLabel_PlaceHolder: buttonLabel_PlaceHolder,
-            linkButtonText: linkButtonText,
-            reportInputField: reportInputField,
-            dataSet: dataSet,
-            onClickDropdown: onClickDropdown,
-            parentClass: parentClass,
-            superParentClass: superParentClass,
-            dropdownVisible: dropdownVisible,
-            childClass: childClass,
-            selectedValue: value,
-            dataKey: dataSetKey,
-            dataValue: dataSetValue
-        };
+        let nextState = {...props};
         return nextState;
     }
 
     onLinkClick(e){
-        this.setState({selectedValue: e.currentTarget.innerText});
-        this.setState({newLinkButton: true});
-        //params for getData are reportNo, reportName, isClosed
-        this.props.getData(e.currentTarget.childNodes[0].getAttribute("value"), e.currentTarget.innerText, false);
+        this.setState({selectedValue: e.currentTarget.innerText, newLinkButton: true}, ()=>{
+            //params for getData are reportNo, reportName, isClosed
+            this.props.getData(e.currentTarget.childNodes[0].getAttribute("value"), e.currentTarget.innerText, false);
+        });        
     }
 
     onButtonClick(e){
@@ -80,13 +64,15 @@ class CustomDropdown extends Component {
             this.setState((prevState => ({newLinkButton: !prevState.newLinkButton})));
             break;
         case 2:
-            this.reportName.value !== "" ? this.setState({selectedValue: this.reportName.value}) : null;
-            //params for getData are reportNo, reportName, isClosed
+        console.log(this.reportName.value);
+            (this.reportName && this.reportName.value !== "") ? this.setState({selectedValue: this.reportName.value}) : null;
             this.props.getData(null, this.reportName.value, false);
             break;
         case 3:
             this.setState({selectedValue: _param});
             break;
+            default:
+            console.log("nothing to update");
         }
     }
 
