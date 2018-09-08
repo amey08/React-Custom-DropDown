@@ -29,8 +29,13 @@ class App extends Component {
   }
   
   getFilterName(key, value, state){
-    console.log(key, value, state);
-    this.setState({ createNewDropdownOpen: state, selectedName: value });
+    let oldData = this.state.filterList.map(o => o);
+    
+    if(!oldData.includes(value))
+      oldData.push(value);
+    
+    let newDataSet = oldData.map(o => o);
+    this.setState({ createNewDropdownOpen: state, selectedName: value, filterList: newDataSet });
   }
 
   deleteSearch(){}
@@ -44,12 +49,18 @@ class App extends Component {
         <p className="App-intro">
           Custom Dropdown component place here
         </p>
-        <CustomDropdown buttonLabel_PlaceHolder={"Select Saved Filter Criteria"}
-          linkButtonText={"Create New Filter"} reportInputField={"Enter Filter name"} dataSet={this.state.filterList}
-          onClickDropdown={this.createNewDropdownClick.bind(this)} getData={this.getFilterName.bind(this)}
-          dropdownVisible={this.state.createNewDropdownOpen} childClass="without-title" deleteAction={true}
-          readOnly= {true} value={this.state.selectedName} onDeleteClick={this.deleteSearch.bind(this)}
-          isCopyMode={true} errorText={"this.state.searchNameError"}
+        <CustomDropdown 
+          dataSet={this.state.filterList}
+          onClickDropdown={this.createNewDropdownClick.bind(this)}
+          getData={this.getFilterName.bind(this)}
+          dropdownVisible={this.state.createNewDropdownOpen}
+          childClass="without-title"
+          deleteAction={true}
+          readOnly= {true}
+          value={this.state.selectedName}
+          onDeleteClick={this.deleteSearch.bind(this)}
+          isCopyMode={true}
+          errorText={"this.state.searchNameError"}
         />
       </div>
     );

@@ -46,17 +46,15 @@ class CustomDropdown extends Component {
 
     onLinkClick(e){
         this.setState({selectedValue: e.currentTarget.innerText, newLinkButton: true}, ()=>{
-            //params for getData are reportNo, reportName, isClosed
-            console.log(e);
-            console.log(e.currentTarget.innerText);
-            // console.log(e.currentTarget.childNodes[0].getAttribute("value"), e.currentTarget.innerText, false)
-            this.props.getData(1, "e.currentTarget.innerText", false);
+            //params for getData are reportNo, reportName, isClosed            
+            this.props.getData(this.state.selectedValue, this.state.selectedValue, false);
         });        
     }
 
     onButtonClick(e){
         if(e.currentTarget.getAttribute("id") === "save-reportNameBtn"){
             this.toggleState(2);
+            this.toggleState(3, this.reportName.value);
         }
         this.toggleState(1);
     }
@@ -67,10 +65,9 @@ class CustomDropdown extends Component {
             this.setState((prevState => ({newLinkButton: !prevState.newLinkButton})));
             break;
         case 2:
-        console.log(this.reportName.value);
-            if(this.reportName && this.reportName.value !== "")
-                this.updateValue('selectedValue', this.reportName.value);
-            this.props.getData(null, this.reportName.value, false);
+            if(this.reportName && this.reportName.value !== ""){
+                this.props.getData(this.reportName.value, this.reportName.value, false);
+            }
             break;
         case 3:
             this.setState({selectedValue: _param});
@@ -79,9 +76,12 @@ class CustomDropdown extends Component {
             console.log("nothing to update");
         }
     }
-    updateValue(_key, _param, _callbackFn){
-        this.setState({_key: _param}, _callbackFn)
+    
+    onTextEntered(e){
+        this.setState({selectedValue: e.target.value});
+        this.props.getData(e.target.value, e.target.value, false);
     }
+
     renderList() {
         let data = this.state.dataSet;
         return data.map((record, index) => {
@@ -104,34 +104,46 @@ class CustomDropdown extends Component {
         });
     }
 
-    onTextEntered(e){
-        this.setState({selectedValue: e.target.value});
-        this.props.getData(null, e.target.value, false);
+    createNewComponent(){
+        return (
+            <div className="input-group create-new-report-Edit noMargin" id="new-custom-dropdown-inputListGrp">
+                <input type="text" className="form-control new-report-name" name="reportName"
+                    maxLength={this.props.maxTextLength} placeholder={this.props.reportInputField}
+                    ref={(input)=> this.reportName = input} id="new-custom-dropdown-innerInput" />
+                <Button id="save-reportNameBtn" className="btn btn-success" type="button"
+                    onClick={this.onButtonClick.bind(this)} block={true}>Confirm</Button>
+            </div>
+        );
+    }
+
+    dropdownBoxComponent(){
+        return (
+            <div className={"cursor-pointer createReport-dropdown-container "+this.props.dropDownBoxClass} onClick={this.props.onClickDropdown} id="new-custom-dropdown">
+                <input type="text"
+                    id="new-custom-dropdown-input"
+                    className="createReport-input-dropdown" 
+                    name="createReport" 
+                    autoFocus={(!(this.props.readOnly))}
+                    value={this.state.selectedValue} 
+                    placeholder={this.props.dropDownBox_PlaceHolder} 
+                    maxLength={this.props.maxTextLength} 
+                    readOnly={this.props.readOnly}
+                    onChange={this.onTextEntered.bind(this)} />
+                <span className="arrow-color glyphicon glyphicon-asterisk" id="new-custom-dropdown-icon"/>
+            </div>
+        );
     }
 
     render() {
-        let {buttonLabel_PlaceHolder, linkButtonText,
-            reportInputField, parentClass, superParentClass, childClass } = {...this.state};
-
         return (
-            <div id="new-custom-dropdown-wrapper">
-                <div className={"custom-dropdown green-common-bottom-border "+superParentClass} >
-                    <div className={"cursor-pointer createReport-dropdown-container "+parentClass} onClick={this.props.onClickDropdown} id="new-custom-dropdown">
-                        <input type="text" className="createReport-input-dropdown" name="createReport" autoFocus={(!(this.props.readOnly))} id="new-custom-dropdown-input"
-                            value={this.state.selectedValue} placeholder={buttonLabel_PlaceHolder} maxLength={this.props.maxTextLength} readOnly={this.props.readOnly} onChange={this.onTextEntered.bind(this)} />
-                        <span className="arrow-color glyphicon glyphicon-chevron-down" id="new-custom-dropdown-icon"/>
-                    </div>
-
+            <div id="new-custom-dropdown-wrapper" className={this.props.columnWidthParent}>
+                <div className={"custom-dropdown green-common-bottom-border "+this.props.dropDownComponent} >                    
+                    {this.dropdownBoxComponent()}
                     {this.state.dropdownVisible ? (
-                        <div id="new-custom-dropdown-CreateReport" className={"custom-dropdown-content "+childClass}>
-                            {this.state.newLinkButton ? (<a className="create-new-report-link" onClick={this.onButtonClick.bind(this)} id="new-custom-dropdown-link">{"+ "+linkButtonText}</a>) : (
-                                <div className="input-group create-new-report-Edit noMargin" id="new-custom-dropdown-inputListGrp">
-                                    <input type="text" className="form-control new-report-name" name="reportName"
-                                        maxLength={this.props.maxTextLength} placeholder={reportInputField}
-                                        ref={(input)=> this.reportName = input} id="new-custom-dropdown-innerInput" />
-                                    <Button id="save-reportNameBtn" className="btn btn-success" type="button"
-                                        onClick={this.onButtonClick.bind(this)} block={true}>Confirm</Button>
-                                </div>)}
+                        <div id="new-custom-dropdown-CreateReport" className={"custom-dropdown-content "+this.props.childClass}>
+                            {this.state.newLinkButton ? 
+                            (<a className="create-new-report-link" onClick={this.onButtonClick.bind(this)} id="new-custom-dropdown-link">{"+ "+this.props.linkButtonText}</a>) 
+                            : this.createNewComponent()}
                             {this.renderList()}
                         </div>
                     ) : null}
@@ -143,13 +155,13 @@ class CustomDropdown extends Component {
 }
 
 CustomDropdown.propTypes = {
-    buttonLabel_PlaceHolder: PropTypes.string,
-    linkButtonText: PropTypes.string,
-    reportInputField: PropTypes.string,
-    dataSet: PropTypes.array,
-    parentClass: PropTypes.string,
-    superParentClass: PropTypes.string,
-    childClass: PropTypes.string,
+    dropDownBox_PlaceHolder: PropTypes.string, //-- Dropdown box placeholder
+    linkButtonText: PropTypes.string, //-- create new report functionality title
+    reportInputField: PropTypes.string, //-- Create New Report input box placeholder
+    dataSet: PropTypes.array, //-- list of dropdown values
+    dropDownBoxClass: PropTypes.string, //-- can set user defined class from this property for dropdown main box with arrow
+    dropDownComponent: PropTypes.string,//-- can set user defined class from this property for entire dropdown box
+    childClass: PropTypes.string,//-- can set user defined class from this property for dropdown list component
     dropdownVisible: PropTypes.bool,
     onClickDropdown: PropTypes.func,
     getData: PropTypes.func,
@@ -160,21 +172,23 @@ CustomDropdown.propTypes = {
     deleteAction: PropTypes.bool,
     onDeleteClick: PropTypes.func,
     errorText: PropTypes.string,
+    columnWidthParent: PropTypes.string,
     maxTextLength: PropTypes.number
 };
 
 CustomDropdown.defaultProps = {
-    buttonLabel_PlaceHolder: "Select Report Name",
+    dropDownBox_PlaceHolder: "Select Report Name",
     linkButtonText: " New Report",
     reportInputField: "New Report Name",
     dataSet: [],
-    parentClass: "popover-container",
-    superParentClass: "",
+    dropDownBoxClass: "popover-container",
+    dropDownComponent: "",
     childClass: "popover",
     dropdownVisible: false,
     readOnly: true,
     deleteAction: false,
-    maxTextLength: 30
+    maxTextLength: 30,
+    columnWidthParent: "col-lg-4 col-md-4 col-sm-6 col-xs-12"
 };
 
 export default CustomDropdown;

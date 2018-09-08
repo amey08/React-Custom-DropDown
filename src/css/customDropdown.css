@@ -10,8 +10,8 @@
 	margin-top: 48px;
 	margin-left: 0px;
 	padding: 5px;
-	/*min-width:240px;*/
-	width: 100%;
+	min-width:240px;
+	/* width: 100%; */
 	display: block;
 	max-height: 230px;
 	overflow: auto;
@@ -52,10 +52,17 @@
     width: 92%;
 }
 
-/*.createReport-dropdown-container, .scheduleReport-dropdown{
-	max-width: 240px;
-}*/
-
+*{
+    font-family: 'sans-serif' 'Glyphicons Halflings';
+    font-style: normal;
+    font-size: 13px;
+}
+/* *{
+    font-family: sans-serif;
+} */
+.cursor-pointer, #new-custom-dropdown-CreateReport, #new-custom-dropdown, #new-custom-dropdown > input{
+    cursor: pointer;
+}
 .input-group{
     position: relative;
     display: table;
