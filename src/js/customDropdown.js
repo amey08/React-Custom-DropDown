@@ -83,7 +83,7 @@ class CustomDropdown extends Component {
     }
 
     renderList() {
-        let data = this.state.dataSet;
+        let data = this.state.DataSet;
         return data.map((record, index) => {
             let value= this.state.dataValue ?  record[this.state.dataValue] : record;
             
@@ -108,7 +108,7 @@ class CustomDropdown extends Component {
         return (
             <div className="input-group create-new-report-Edit noMargin" id="new-custom-dropdown-inputListGrp">
                 <input type="text" className="form-control new-report-name" name="reportName"
-                    maxLength={this.props.maxTextLength} placeholder={this.props.reportInputField}
+                    maxLength={this.props.maxTextLength} placeholder={this.props.NewReportInputPlaceholder}
                     ref={(input)=> this.reportName = input} id="new-custom-dropdown-innerInput" />
                 <Button id="save-reportNameBtn" className="btn btn-success" type="button"
                     onClick={this.onButtonClick.bind(this)} block={true}>Confirm</Button>
@@ -118,14 +118,14 @@ class CustomDropdown extends Component {
 
     dropdownBoxComponent(){
         return (
-            <div className={"cursor-pointer createReport-dropdown-container "+this.props.dropDownBoxClass} onClick={this.props.onClickDropdown} id="new-custom-dropdown">
+            <div className={"cursor-pointer createReport-dropdown-container "+this.props.DropDownBoxClass} onClick={this.props.onClickDropdown} id="new-custom-dropdown">
                 <input type="text"
                     id="new-custom-dropdown-input"
                     className="createReport-input-dropdown" 
                     name="createReport" 
                     autoFocus={(!(this.props.readOnly))}
                     value={this.state.selectedValue} 
-                    placeholder={this.props.dropDownBox_PlaceHolder} 
+                    placeholder={this.props.DropDownPlaceHolder} 
                     maxLength={this.props.maxTextLength} 
                     readOnly={this.props.readOnly}
                     onChange={this.onTextEntered.bind(this)} />
@@ -137,12 +137,12 @@ class CustomDropdown extends Component {
     render() {
         return (
             <div id="new-custom-dropdown-wrapper" className={this.props.columnWidthParent}>
-                <div className={"custom-dropdown green-common-bottom-border "+this.props.dropDownComponent} >                    
+                <div className={"custom-dropdown green-common-bottom-border "+this.props.DropDownComponentClass} >                    
                     {this.dropdownBoxComponent()}
                     {this.state.dropdownVisible ? (
                         <div id="new-custom-dropdown-CreateReport" className={"custom-dropdown-content "+this.props.childClass}>
                             {this.state.newLinkButton ? 
-                            (<a className="create-new-report-link" onClick={this.onButtonClick.bind(this)} id="new-custom-dropdown-link">{"+ "+this.props.linkButtonText}</a>) 
+                            (<a className="create-new-report-link" onClick={this.onButtonClick.bind(this)} id="new-custom-dropdown-link">{"+ "+this.props.LinkButtonTextLable}</a>) 
                             : this.createNewComponent()}
                             {this.renderList()}
                         </div>
@@ -155,39 +155,42 @@ class CustomDropdown extends Component {
 }
 
 CustomDropdown.propTypes = {
-    dropDownBox_PlaceHolder: PropTypes.string, //-- Dropdown box placeholder
-    linkButtonText: PropTypes.string, //-- create new report functionality title
-    reportInputField: PropTypes.string, //-- Create New Report input box placeholder
-    dataSet: PropTypes.array, //-- list of dropdown values
-    dropDownBoxClass: PropTypes.string, //-- can set user defined class from this property for dropdown main box with arrow
-    dropDownComponent: PropTypes.string,//-- can set user defined class from this property for entire dropdown box
-    childClass: PropTypes.string,//-- can set user defined class from this property for dropdown list component
-    dropdownVisible: PropTypes.bool,
-    onClickDropdown: PropTypes.func,
-    getData: PropTypes.func,
-    readOnly: PropTypes.bool,
-    isCopyMode: PropTypes.bool,
-    dataSetKey: PropTypes.string,
-    dataSetValue: PropTypes.string,
-    deleteAction: PropTypes.bool,
-    onDeleteClick: PropTypes.func,
-    errorText: PropTypes.string,
-    columnWidthParent: PropTypes.string,
-    maxTextLength: PropTypes.number
+    DropDownPlaceHolder: PropTypes.string, //-- Dropdown box placeholder. Default value: "Select Report Name"
+    LinkButtonTextLable: PropTypes.string, //-- create new report functionality title. Default value: "New Report"
+    NewReportInputPlaceholder: PropTypes.string, //-- Create New Report input box placeholder. Default value:"New Report Name"
+    DropDownBoxClass: PropTypes.string, //-- can set user defined class from this property for dropdown main box with arrow. Default value: popover-container
+    DropDownComponentClass: PropTypes.string,//-- can set user defined class from this property for entire dropdown box. Default value is empty string.
+    childClass: PropTypes.string,//-- can set user defined class from this property for dropdown list component. Default value: popover
+    errorText: PropTypes.string, //-- Error Text will be displayed if needed. Default value is empty string.
+    columnWidthParent: PropTypes.string, //-- Change the Bootstrap style of the component. Default value: col-lg-4 col-md-4 col-sm-6 col-xs-12
+    
+    DataSet: PropTypes.array, //-- Dropdown values data set. Default value is Empty array.
+    
+    dropdownVisible: PropTypes.bool, //-- Display dropdown list. Default value False.
+    readOnly: PropTypes.bool, //-- Dropdown input is can be toggle, by using this props. Default value True. Means, Input filed will be in Read only mode.
+    isCopyMode: PropTypes.bool, //-- isCopy mode is specific functionality for reports name
+    deleteAction: PropTypes.bool, //-- Default value is False, an Icon will be shown on every row
+    
+    onDeleteClick: PropTypes.func, //-- Delete function is assinged to the props deleteAction component.
+    onClickDropdown: PropTypes.func, //-- Click function t display dropdown list
+    getData: PropTypes.func, //-- Return the selected values or created new values
+    
+    maxTextLength: PropTypes.number //-- New Report input field maximum length can be set. Default value 30.
 };
 
 CustomDropdown.defaultProps = {
-    dropDownBox_PlaceHolder: "Select Report Name",
-    linkButtonText: " New Report",
-    reportInputField: "New Report Name",
-    dataSet: [],
-    dropDownBoxClass: "popover-container",
-    dropDownComponent: "",
+    DropDownPlaceHolder: "Select Report Name",
+    LinkButtonTextLable: " New Report",
+    NewReportInputPlaceholder: "New Report Name",
+    DataSet: [],
+    DropDownBoxClass: "popover-container",
+    DropDownComponentClass: "",
     childClass: "popover",
     dropdownVisible: false,
     readOnly: true,
     deleteAction: false,
     maxTextLength: 30,
+    errorText: '',
     columnWidthParent: "col-lg-4 col-md-4 col-sm-6 col-xs-12"
 };
 

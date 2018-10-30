@@ -49,8 +49,9 @@ class App extends Component {
         <p className="App-intro">
           Custom Dropdown component place here
         </p>
+        
         <CustomDropdown 
-          dataSet={this.state.filterList}
+          DataSet={this.state.filterList}
           onClickDropdown={this.createNewDropdownClick.bind(this)}
           getData={this.getFilterName.bind(this)}
           dropdownVisible={this.state.createNewDropdownOpen}
