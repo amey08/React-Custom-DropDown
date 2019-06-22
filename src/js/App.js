@@ -35,9 +35,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <p className="App-intro">
+        <h4 className="App-intro">
           Custom Dropdown component place here
-        </p>
+        </h4>
 
         <CustomDropdown 
           DataSet={this.state.filterList}

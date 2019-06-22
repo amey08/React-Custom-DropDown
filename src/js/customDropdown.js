@@ -87,7 +87,7 @@ class CustomDropdown extends Component {
             let value= this.state.dataValue ?  record[this.state.dataValue] : record;
             
             return (
-                <div className="col-md-12 list-anchors" key={index} id="new-custom-dropdown-anchors">
+                <div className="col-md-12 list-anchors" key={index} id={"new-custom-dropdown-anchors_"+index}>
                     <div className="col-sm-9 col-md-10 col-xs-8 col-lg-10 noPaddingLR cursor-pointer" onClick={this.onLinkClick.bind(this)} value={this.state.dataKey ? record[this.state.dataKey] : record}>
                         <a value={this.state.dataKey ? record[this.state.dataKey] : record} title={value}>
                             {value}
@@ -128,7 +128,7 @@ class CustomDropdown extends Component {
                     maxLength={this.props.maxTextLength} 
                     readOnly={this.props.readOnly}
                     onChange={this.onTextEntered.bind(this)} />
-                <span className="arrow-color glyphicon glyphicon-asterisk" id="new-custom-dropdown-icon"/>+
+                <span className="arrow-color glyphicon glyphicon-chevron-down" id="new-custom-dropdown-icon"/>
             </div>
         );
     }

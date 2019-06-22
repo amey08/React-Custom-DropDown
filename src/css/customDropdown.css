@@ -75,6 +75,10 @@
     overflow: hidden;
     white-space: nowrap;
 }
+.list-anchors{
+    display: flex;
+    padding: 5px 0;
+}
 .input-group{
     margin-top: 5px;
 }
