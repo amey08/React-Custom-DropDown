@@ -17,22 +17,17 @@
 	max-height: 230px;
 	overflow: auto;
 }
-
 #new-custom-dropdown-CreateReport.without-title {
 	margin-top: 1px !important;
 }
-
-
 .custom-dropdown .createReport-input-dropdown, .scheduleReport-input-dropdown{
 	height: 34px;
 	border: 0px;
 	width: 92%;
 }
-
 .create-new-report-Edit .new-report-name{
 	margin-bottom: 5px;
 }
-
 .custom-dropdown-content {
     display: none;
     position: absolute;
@@ -43,7 +38,6 @@
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1002;
 }
-
 .arrow-color {
     color: #A0A0A0;
 }
@@ -52,15 +46,6 @@
     border: 0px;
     width: 92%;
 }
-
-*{
-    font-family: 'sans-serif' 'Glyphicons Halflings';
-    font-style: normal;
-    font-size: 13px;
-}
-/* *{
-    font-family: sans-serif;
-} */
 .cursor-pointer, #new-custom-dropdown-CreateReport, #new-custom-dropdown, #new-custom-dropdown > input{
     cursor: pointer;
 }
@@ -73,7 +58,6 @@
 .noMargin {
     margin: 0px;
 }
-
 .custom-dropdown-content>a {
     color: #515151;
     padding: 12px 16px;

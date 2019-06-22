@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './../images/logo.svg';
 import './../css/App.css';
 import CustomDropdown from './customDropdown';
 
@@ -10,15 +9,9 @@ class App extends Component {
       filterList: ["1","2","3"]
     }
   }
-  componentWillMount() {
-    // let state = this._constructComponent(this.props);
-    // this.setState({ ...state});
-  }
+  componentWillMount() {}
 
-  componentWillReceiveProps(receivedProps) {
-    // let state = this._constructComponent(receivedProps);
-    // this.setState({ ...state});
-  }
+  componentWillReceiveProps(receivedProps) {}
 
   createNewDropdownClick(){
     this.setState(prevState => {
@@ -42,14 +35,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
         <p className="App-intro">
           Custom Dropdown component place here
         </p>
-        
+
         <CustomDropdown 
           DataSet={this.state.filterList}
           onClickDropdown={this.createNewDropdownClick.bind(this)}

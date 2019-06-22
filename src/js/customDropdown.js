@@ -73,7 +73,6 @@ class CustomDropdown extends Component {
             this.setState({selectedValue: _param});
             break;
             default:
-            console.log("nothing to update");
         }
     }
     
@@ -129,7 +128,7 @@ class CustomDropdown extends Component {
                     maxLength={this.props.maxTextLength} 
                     readOnly={this.props.readOnly}
                     onChange={this.onTextEntered.bind(this)} />
-                <span className="arrow-color glyphicon glyphicon-asterisk" id="new-custom-dropdown-icon"/>
+                <span className="arrow-color glyphicon glyphicon-asterisk" id="new-custom-dropdown-icon"/>+
             </div>
         );
     }
